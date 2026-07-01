@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>M&M Cleaning, Junk Removal & Demolition | Boston, MA</title>
+<meta name="description" content="Boston's most trusted cleaning, junk removal & demolition service. Available 24/7. Call or text (617) 799-9304."/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050810;
+  --surface:#0d1117;
+  --surface2:#111827;
+  --blue:#3b82f6;
+  --blue-glow:#2563eb;
+  --purple:#8b5cf6;
+  --cyan:#06b6d4;
+  --white:#f8fafc;
+  --gray:#94a3b8;
+  --gray2:#1e2a3a;
+  --border:rgba(255,255,255,0.07);
+  --glass:rgba(255,255,255,0.04);
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit}
+
+/* ── CANVAS ── */
+#particle-canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;opacity:0.6;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 24px;
+  transition:background .3s,backdrop-filter .3s,border-color .3s;
+}
+nav.scrolled{
+  background:rgba(5,8,16,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:72px;
+}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:900;letter-spacing:-1px;
+  box-shadow:0 0 20px rgba(59,130,246,0.4);
+}
+.logo-name{font-size:16px;font-weight:800;letter-spacing:-0.3px}
+.logo-sub{font-size:11px;color:var(--gray);font-weight:500;margin-top:1px}
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none}
+.nav-links a{
+  font-size:14px;font-weight:500;color:var(--gray);
+  padding:8px 14px;border-radius:8px;
+  transition:color .2s,background .2s;
+}
+.nav-links a:hover{color:var(--white);background:rgba(255,255,255,0.06)}
+.nav-cta{
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  color:#fff;font-size:14px;font-weight:700;
+  padding:10px 22px;border-radius:10px;
+  box-shadow:0 0 24px rgba(59,130,246,0.35);
+  transition:transform .2s,box-shadow .2s;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 0 36px rgba(59,130,246,0.55)}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:140px 24px 100px;
+  position:relative;overflow:hidden;z-index:1;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(59,130,246,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 70%, rgba(139,92,246,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 30% at 50% 50%, rgba(6,182,212,0.06) 0%, transparent 60%);
+  animation:bgPulse 8s ease-in-out infinite alternate;
+}
+@keyframes bgPulse{
+  0%{opacity:0.7}
+  100%{opacity:1}
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid rgba(59,130,246,0.35);
+  background:rgba(59,130,246,0.1);
+  color:#93c5fd;
+  font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  padding:8px 18px;border-radius:100px;
+  margin-bottom:28px;
+  backdrop-filter:blur(10px);
+  animation:fadeDown .8s ease both;
+}
+.badge-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:#4ade80;
+  box-shadow:0 0 8px #4ade80;
+  animation:pulse2 2s ease-in-out infinite;
+}
+@keyframes pulse2{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
+
+.hero h1{
+  font-size:clamp(42px,7vw,88px);
+  font-weight:900;
+  letter-spacing:-3px;
+  line-height:1.0;
+  margin-bottom:24px;
+  animation:fadeUp .9s .1s ease both;
+}
+.hero h1 .word-clean{color:var(--white)}
+.hero h1 .word-accent{
+  background:linear-gradient(135deg,var(--blue),var(--cyan),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(16px,2vw,20px);
+  color:var(--gray);
+  max-width:560px;
+  line-height:1.7;
+  margin:0 auto 44px;
+  font-weight:400;
+  animation:fadeUp .9s .2s ease both;
+}
+.hero-actions{
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp .9s .3s ease both;
+}
+.btn-grad{
+  display:inline-flex;align-items:center;gap:9px;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  color:#fff;font-size:16px;font-weight:700;
+  padding:16px 32px;border-radius:12px;
+  box-shadow:0 0 32px rgba(59,130,246,0.45);
+  transition:transform .2s,box-shadow .2s;
+  position:relative;overflow:hidden;
+}
+.btn-grad::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);
+  opacity:0;transition:opacity .2s;
+}
+.btn-grad:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(59,130,246,0.6)}
+.btn-grad:hover::before{opacity:1}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--glass);
+  border:1px solid var(--border);
+  color:var(--white);font-size:16px;font-weight:600;
+  padding:16px 32px;border-radius:12px;
+  backdrop-filter:blur(12px);
+  transition:background .2s,border-color .2s,transform .2s;
+}
+.btn-ghost:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2);transform:translateY(-2px)}
+.btn-icon{width:18px;height:18px;fill:currentColor;flex-shrink:0}
+
+/* HERO STATS */
+.hero-stats{
+  display:flex;gap:48px;justify-content:center;
+  margin-top:64px;
+  animation:fadeUp .9s .4s ease both;
+  flex-wrap:wrap;
+}
+.stat{text-align:center}
+.stat-num{
+  font-size:36px;font-weight:900;letter-spacing:-1px;
+  background:linear-gradient(135deg,var(--white),var(--gray));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stat-label{font-size:13px;color:var(--gray);font-weight:500;margin-top:4px}
+.stat-div{width:1px;background:var(--border);align-self:stretch}
+
+/* ── TRUST ── */
+.trust{
+  padding:20px 24px;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,0.02);
+  position:relative;z-index:1;
+}
+.trust-inner{
+  max-width:1100px;margin:0 auto;
+  display:flex;justify-content:center;
+  gap:48px;flex-wrap:wrap;
+}
+.trust-item{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:600;color:var(--gray);
+}
+.trust-item svg{width:15px;height:15px;fill:var(--cyan);flex-shrink:0}
+
+/* ── SCROLL REVEAL ── */
+.reveal{
+  opacity:0;transform:translateY(32px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.4s}
+
+/* ── SECTION SHARED ── */
+.section{padding:100px 24px;position:relative;z-index:1}
+.wrap{max-width:1200px;margin:0 auto}
+.section-label{
+  font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:14px;display:block;
+}
+.section-title{
+  font-size:clamp(32px,4vw,52px);
+  font-weight:900;letter-spacing:-1.5px;line-height:1.1;
+  margin-bottom:16px;
+}
+.section-desc{
+  font-size:17px;color:var(--gray);line-height:1.7;
+  max-width:500px;margin-bottom:60px;
+}
+
+/* ── SERVICES ── */
+.svc-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;
+}
+.svc-card{
+  background:var(--surface);
+  padding:40px 36px;
+  position:relative;overflow:hidden;
+  transition:background .3s;
+}
+.svc-card::before{
+  content:'';position:absolute;
+  top:-80px;right:-80px;
+  width:200px;height:200px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(59,130,246,0.12) 0%,transparent 70%);
+  transition:transform .4s,opacity .4s;opacity:0;
+}
+.svc-card:hover{background:rgba(17,24,39,0.9)}
+.svc-card:hover::before{opacity:1;transform:scale(1.3)}
+.svc-icon{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:24px;
+  transition:transform .3s;
+}
+.svc-card:hover .svc-icon{transform:scale(1.08)}
+.svc-icon.blue{background:rgba(59,130,246,0.15);box-shadow:0 0 20px rgba(59,130,246,0.2)}
+.svc-icon.purple{background:rgba(139,92,246,0.15);box-shadow:0 0 20px rgba(139,92,246,0.2)}
+.svc-icon.cyan{background:rgba(6,182,212,0.15);box-shadow:0 0 20px rgba(6,182,212,0.2)}
+.svc-icon.green{background:rgba(74,222,128,0.15);box-shadow:0 0 20px rgba(74,222,128,0.2)}
+.svc-icon svg{width:26px;height:26px;fill:currentColor}
+.svc-icon.blue svg{color:var(--blue)}
+.svc-icon.purple svg{color:var(--purple)}
+.svc-icon.cyan svg{color:var(--cyan)}
+.svc-icon.green svg{color:#4ade80}
+.svc-card h3{font-size:20px;font-weight:800;margin-bottom:10px;letter-spacing:-0.3px}
+.svc-card p{font-size:14px;color:var(--gray);line-height:1.7}
+
+/* ── WHY ── */
+.why-bg{
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 50%, rgba(59,130,246,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 50%, rgba(139,92,246,0.08) 0%, transparent 60%),
+    var(--surface2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.why-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;
+}
+.why-card{
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:32px 28px;
+  backdrop-filter:blur(12px);
+  transition:border-color .3s,background .3s,transform .3s;
+  cursor:default;
+}
+.why-card:hover{
+  border-color:rgba(59,130,246,0.3);
+  background:rgba(59,130,246,0.05);
+  transform:translateY(-4px);
+}
+.why-num{
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  color:var(--blue);margin-bottom:16px;
+}
+.why-card h4{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-0.2px}
+.why-card p{font-size:14px;color:var(--gray);line-height:1.65}
+
+/* ── REVIEWS ── */
+.reviews-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:20px;
+}
+.review-card{
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:32px;
+  backdrop-filter:blur(12px);
+  transition:border-color .3s,transform .3s;
+}
+.review-card:hover{border-color:rgba(139,92,246,0.3);transform:translateY(-3px)}
+.review-stars{
+  font-size:16px;margin-bottom:16px;letter-spacing:2px;
+  background:linear-gradient(90deg,#f59e0b,#fbbf24);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.review-text{font-size:15px;color:#cbd5e1;line-height:1.8;margin-bottom:24px;font-style:italic}
+.review-author{display:flex;align-items:center;gap:12px}
+.review-av{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;flex-shrink:0;
+  box-shadow:0 0 12px rgba(59,130,246,0.3);
+}
+.review-name{font-size:14px;font-weight:700}
+.review-source{font-size:12px;color:var(--gray);margin-top:2px}
+.review-google{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;color:var(--gray);margin-top:4px;
+}
+
+/* ── CTA BANNER ── */
+.cta-banner{
+  margin:0 24px;
+  background:linear-gradient(135deg,rgba(37,99,235,0.2),rgba(139,92,246,0.2));
+  border:1px solid rgba(59,130,246,0.25);
+  border-radius:24px;
+  padding:64px 48px;
+  text-align:center;
+  position:relative;overflow:hidden;
+  backdrop-filter:blur(12px);
+}
+.cta-banner::before{
+  content:'';position:absolute;
+  top:-100px;left:50%;transform:translateX(-50%);
+  width:400px;height:300px;
+  background:radial-gradient(ellipse,rgba(59,130,246,0.2) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cta-banner h2{font-size:clamp(28px,4vw,48px);font-weight:900;letter-spacing:-1px;margin-bottom:12px}
+.cta-banner p{font-size:17px;color:var(--gray);margin-bottom:36px}
+.cta-phone{
+  font-size:clamp(32px,5vw,56px);font-weight:900;letter-spacing:-1.5px;
+  background:linear-gradient(135deg,var(--white),#93c5fd);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:block;margin-bottom:32px;transition:opacity .2s;
+}
+.cta-phone:hover{opacity:0.85}
+.cta-note{font-size:13px;color:var(--gray);margin-top:16px}
+
+/* ── CONTACT ── */
+.contact-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;align-items:start;
+}
+.contact-label{font-size:16px;font-weight:600;margin-bottom:24px;color:var(--white)}
+.contact-row{
+  display:flex;align-items:center;gap:16px;
+  padding:20px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:12px;
+  background:var(--glass);
+  backdrop-filter:blur(12px);
+  transition:border-color .2s,background .2s,transform .2s;
+}
+.contact-row:hover{
+  border-color:rgba(59,130,246,0.3);
+  background:rgba(59,130,246,0.06);
+  transform:translateX(4px);
+}
+.contact-icon{
+  width:46px;height:46px;border-radius:12px;
+  background:rgba(59,130,246,0.15);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 0 16px rgba(59,130,246,0.2);
+}
+.contact-icon svg{width:22px;height:22px;fill:var(--blue)}
+.contact-ilabel{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray)}
+.contact-ival{font-size:16px;font-weight:700;margin-top:2px}
+
+/* Glass box */
+.glass-box{
+  background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:44px 40px;
+  backdrop-filter:blur(20px);
+  position:relative;overflow:hidden;
+}
+.glass-box::before{
+  content:'';position:absolute;
+  top:-60px;right:-60px;
+  width:250px;height:250px;
+  background:radial-gradient(circle,rgba(139,92,246,0.15) 0%,transparent 70%);
+  pointer-events:none;
+}
+.gbox-tag{
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:10px;display:block;
+}
+.gbox-title{font-size:22px;font-weight:800;margin-bottom:8px;letter-spacing:-0.3px}
+.gbox-sub{font-size:14px;color:var(--gray);margin-bottom:28px;line-height:1.6}
+.big-phone{
+  display:block;
+  font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;
+  background:linear-gradient(135deg,var(--white),#93c5fd);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:6px;transition:opacity .2s;
+}
+.big-phone:hover{opacity:0.8}
+.phone-note{font-size:13px;color:var(--gray);margin-bottom:28px}
+.gbox-divider{border:none;border-top:1px solid var(--border);margin:24px 0}
+.hours-head{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:14px}
+.hours-row{
+  display:flex;justify-content:space-between;
+  font-size:14px;color:var(--gray);
+  padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.hours-row:last-child{border-bottom:none}
+.hours-row strong{color:var(--white)}
+.open-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(74,222,128,0.1);
+  border:1px solid rgba(74,222,128,0.25);
+  color:#4ade80;font-size:12px;font-weight:700;
+  padding:7px 16px;border-radius:100px;margin-top:18px;
+  box-shadow:0 0 16px rgba(74,222,128,0.15);
+}
+.open-pill-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px #4ade80;animation:pulse2 2s ease-in-out infinite}
+
+/* ── FAQ ── */
+.faq-list{max-width:720px;margin:0 auto}
+.faq-item{
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+}
+.faq-q{
+  width:100%;background:none;border:none;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 0;
+  font-size:16px;font-weight:600;color:var(--white);
+  cursor:pointer;text-align:left;gap:16px;
+  transition:color .2s;
+}
+.faq-q:hover{color:#93c5fd}
+.faq-icon{
+  width:28px;height:28px;border-radius:8px;
+  background:var(--glass);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:transform .3s,background .3s;
+  font-size:16px;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:rgba(59,130,246,0.2);border-color:rgba(59,130,246,0.4)}
+.faq-a{
+  font-size:15px;color:var(--gray);line-height:1.7;
+  max-height:0;overflow:hidden;
+  transition:max-height .4s ease,padding .4s ease;
+  padding-bottom:0;
+}
+.faq-item.open .faq-a{max-height:200px;padding-bottom:22px}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:64px 24px 40px;
+  position:relative;z-index:1;
+  background:rgba(0,0,0,0.3);
+}
+.footer-grid{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:2fr 1fr 1fr;
+  gap:48px;margin-bottom:48px;
+}
+.footer-logo{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.footer-logo-mark{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;
+}
+.footer-brand{font-size:16px;font-weight:800}
+.footer-desc{font-size:14px;color:var(--gray);line-height:1.7;margin-bottom:20px;max-width:300px}
+.footer-phone{
+  font-size:18px;font-weight:700;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.footer-col-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:18px}
+.footer-col ul{list-style:none}
+.footer-col li{font-size:14px;color:#64748b;padding:6px 0}
+.footer-bottom{
+  max-width:1200px;margin:0 auto;
+  padding-top:32px;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:13px;color:#374151;flex-wrap:wrap;gap:8px;
+}
+
+/* ── MOBILE ── */
+.mobile-bar{
+  display:none;position:fixed;bottom:0;left:0;right:0;
+  padding:12px 16px;
+  background:rgba(5,8,16,0.95);
+  border-top:1px solid var(--border);
+  backdrop-filter:blur(20px);
+  z-index:200;gap:10px;
+}
+.mb-call{
+  flex:1;text-align:center;padding:14px;border-radius:12px;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  font-size:14px;font-weight:700;color:#fff;
+  box-shadow:0 0 20px rgba(59,130,246,0.4);
+}
+.mb-text{
+  flex:1;text-align:center;padding:14px;border-radius:12px;
+  background:var(--glass);border:1px solid var(--border);
+  font-size:14px;font-weight:600;color:var(--white);
+}
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .nav-links{display:none}
+  .hero-stats{gap:28px}
+  .stat-div{display:none}
+  .contact-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr;gap:28px}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .mobile-bar{display:flex}
+  body{padding-bottom:72px}
+  .cta-banner{padding:48px 28px;margin:0 12px}
+}
+@media(max-width:640px){
+  .hero{padding:120px 20px 80px}
+  .section{padding:72px 20px}
+  .svc-grid{grid-template-columns:1fr}
+  .trust-inner{gap:20px}
+  .glass-box{padding:32px 24px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="logo">
+      <div class="logo-mark">M&amp;M</div>
+      <div>
+        <div class="logo-name">M&amp;M Cleaning</div>
+        <div class="logo-sub">Boston, MA · Open 24/7</div>
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="tel:6177999304" class="nav-cta">Call Now →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-badge"><div class="badge-dot"></div>Boston's Trusted Service · Open 24/7</div>
+  <h1>
+    <span class="word-clean">Cleaning,<br>Junk & </span><span class="word-accent">Demolition</span>
+  </h1>
+  <p class="hero-sub">Affordable, reliable, and available around the clock. We handle the hard stuff so you don't have to.</p>
+  <div class="hero-actions">
+    <a class="btn-grad" href="tel:6177999304">
+      <svg class="btn-icon" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.47 11.47 0 003.58.57 1 1 0 011 1v3.5a1 1 0 01-1 1A17 17 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11.47 11.47 0 00.57 3.58 1 1 0 01-.25 1.02l-2.2 2.19z"/></svg>
+      Call (617) 799-9304
+    </a>
+    <a class="btn-ghost" href="sms:6177999304">
+      <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
+      Text for a Free Quote
+    </a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num" data-count="5.0" data-suffix=" ★">5.0 ★</div>
+      <div class="stat-label">Google Rating</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Always Open</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat">
+      <div class="stat-num" data-count="100" data-suffix="%">100%</div>
+      <div class="stat-label">Satisfaction</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">Hidden Fees</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="trust-inner">
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>Trusted & Reliable</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>Affordable Pricing</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z"/></svg>5.0 Star Rated</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>Boston Area, MA</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="section-label">What We Do</span>
+      <h2 class="section-title">Our Services</h2>
+      <p class="section-desc">Residential and commercial. No job too big or too small — we show up and get it done right.</p>
+    </div>
+    <div class="svc-grid reveal reveal-delay-1">
+      <div class="svc-card">
+        <div class="svc-icon blue"><svg viewBox="0 0 24 24"><path d="M19.36 2.72L20.78 4.14 3.22 21.7 1.8 20.28 19.36 2.72m-5.74.27L15 4.41l-2 2L11.59 5l2.03-2.01M7 17l-4 4v-4H1V7h8v10H7zm8-12l4 4v10h-2v-4h-4v4h-2V9l4-4z"/></svg></div>
+        <h3>House Cleaning</h3>
+        <p>Thorough, detail-focused maid service. We leave your home sparkling — organized and done right every time.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon purple"><svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></div>
+        <h3>Junk Removal</h3>
+        <p>Furniture, appliances, debris, and clutter hauled away fast. We handle the heavy lifting at a fair price.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon cyan"><svg viewBox="0 0 24 24"><path d="M15 5l-1.41 1.41L18.17 11H2v2h16.17l-4.59 4.59L15 19l7-7-7-7z"/></svg></div>
+        <h3>Demolition</h3>
+        <p>Interior demolition for homes and commercial spaces. Safe, clean, and done by experienced hands.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon green"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5z"/></svg></div>
+        <h3>Available 24/7</h3>
+        <p>Every day of the week, all hours. Call or text anytime — day, night, weekends, or holidays.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="section why-bg" id="why">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="section-label">Why M&amp;M</span>
+      <h2 class="section-title">What Sets Us Apart</h2>
+      <p class="section-desc">We built this business on showing up, doing the work, and charging fairly.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-num">01</div>
+        <h4>Affordable Pricing</h4>
+        <p>Competitive rates with no hidden fees. We consistently beat the big companies without cutting corners.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-2">
+        <div class="why-num">02</div>
+        <h4>Fast &amp; Efficient</h4>
+        <p>We get in, do the job right, and get out. No wasted time, no runaround — just results.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-3">
+        <div class="why-num">03</div>
+        <h4>Responsible &amp; Responsive</h4>
+        <p>We show up when we say we will. We pick up when you call. That's our standard.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-num">04</div>
+        <h4>Detail-Oriented</h4>
+        <p>We care about doing it right — not just doing it and moving on to the next job.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-2">
+        <div class="why-num">05</div>
+        <h4>5-Star Rated</h4>
+        <p>Real customers, real reviews — 5.0 stars on Google. Our reputation is built on results.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-3">
+        <div class="why-num">06</div>
+        <h4>Open Around the Clock</h4>
+        <p>24 hours a day, 7 days a week. No waiting until Monday. We're here when you need us.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section" id="reviews">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="section-label">Customer Reviews</span>
+      <h2 class="section-title">What People Are Saying</h2>
+      <p class="section-desc">5.0 stars on Google — straight from our customers.</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal reveal-delay-1">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Very nice and affordable. These men came in and did the job quickly. Other junk removal companies wanted at least $75 more — M&amp;M was the right call."</p>
+        <div class="review-author">
+          <div class="review-av">RJ</div>
+          <div>
+            <div class="review-name">Rodney Johnson</div>
+            <div class="review-source">Google Review · 7 years ago</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal reveal-delay-2">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"I have used M and M Cleaning for nearly a year. Responsible, responsive, thorough, and personable. My house sparkled — great attention to detail. I recommend enthusiastically!"</p>
+        <div class="review-author">
+          <div class="review-av">LJ</div>
+          <div>
+            <div class="review-name">Lynda Johnson-Lee</div>
+            <div class="review-source">Google Review · 9 years ago</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal reveal-delay-3">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Very responsible, responsive, and truly nice people. Wouldn't hesitate to call them again — 100% satisfied with the service."</p>
+        <div class="review-author">
+          <div class="review-av">MM</div>
+          <div>
+            <div class="review-name">Moley J. Maitre</div>
+            <div class="review-source">Google Review · 2 years ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta-banner reveal">
+      <h2>Ready to Get Started?</h2>
+      <p>Call or text us — we're available 24 hours a day, 7 days a week.</p>
+      <a href="tel:6177999304" class="cta-phone">(617) 799-9304</a>
+      <div class="hero-actions" style="justify-content:center">
+        <a class="btn-grad" href="tel:6177999304">
+          <svg class="btn-icon" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.47 11.47 0 003.58.57 1 1 0 011 1v3.5a1 1 0 01-1 1A17 17 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11.47 11.47 0 00.57 3.58 1 1 0 01-.25 1.02l-2.2 2.19z"/></svg>
+          Call Now
+        </a>
+        <a class="btn-ghost" href="sms:6177999304">
+          <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
+          Text for a Quote
+        </a>
+      </div>
+      <p class="cta-note">No forms. No waiting. Just a real person ready to help.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="section" id="contact" style="padding-top:0">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="reveal">
+        <span class="section-label">Get In Touch</span>
+        <h2 class="section-title">Contact Us</h2>
+        <p class="section-desc" style="margin-bottom:32px">Call or text anytime. We're always available.</p>
+        <a href="tel:6177999304" class="contact-row" style="display:flex;text-decoration:none">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.47 11.47 0 003.58.57 1 1 0 011 1v3.5a1 1 0 01-1 1A17 17 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11.47 11.47 0 00.57 3.58 1 1 0 01-.25 1.02l-2.2 2.19z"/></svg></div>
+          <div><div class="contact-ilabel">Phone</div><div class="contact-ival">(617) 799-9304</div></div>
+        </a>
+        <a href="sms:6177999304" class="contact-row" style="display:flex;text-decoration:none">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg></div>
+          <div><div class="contact-ilabel">Text Message</div><div class="contact-ival">Text (617) 799-9304</div></div>
+        </a>
+        <div class="contact-row">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg></div>
+          <div><div class="contact-ilabel">Service Area</div><div class="contact-ival">Boston, MA &amp; Surrounding</div></div>
+        </div>
+      </div>
+      <div class="glass-box reveal reveal-delay-2">
+        <span class="gbox-tag">Hours &amp; Info</span>
+        <h3 class="gbox-title">We're Always Here</h3>
+        <p class="gbox-sub">Call or text anytime — no forms, no waiting. A real person picks up.</p>
+        <a href="tel:6177999304" class="big-phone">(617) 799-9304</a>
+        <p class="phone-note">Tap to call &nbsp;·&nbsp; or text for a free quote</p>
+        <hr class="gbox-divider"/>
+        <div class="hours-head">Hours of Operation</div>
+        <div class="hours-row"><span>Monday – Sunday</span><strong>Open 24 Hours</strong></div>
+        <div class="open-pill"><div class="open-pill-dot"></div>Open Right Now</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center;margin-bottom:48px">
+      <span class="section-label">FAQ</span>
+      <h2 class="section-title">Common Questions</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item open">
+        <button class="faq-q">Do you charge extra for large or heavy items?<span class="faq-icon">+</span></button>
+        <div class="faq-a">We price fairly based on the job, not the size. We always beat competitor quotes — call or text us and we'll give you a straight number with no hidden fees.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Are you really available 24 hours a day?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Yes — 24 hours a day, 7 days a week, including holidays. Call or text anytime and a real person will pick up and help you.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Do you serve areas outside of Boston?<span class="faq-icon">+</span></button>
+        <div class="faq-a">We serve Boston and surrounding areas. Call us at (617) 799-9304 to confirm we cover your location — we'll let you know right away.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How do I get a free quote?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Just call or text (617) 799-9304. No forms, no waiting. We'll give you a fast, honest quote over the phone.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What types of junk do you remove?<span class="faq-icon">+</span></button>
+        <div class="faq-a">We handle furniture, appliances, yard waste, construction debris, old electronics, and general household clutter — from any floor, any location.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">
+        <div class="footer-logo-mark">M&amp;M</div>
+        <div class="footer-brand">M&amp;M Cleaning</div>
+      </div>
+      <p class="footer-desc">Maid Services, Junk Removal &amp; Demolition. Serving the Boston area with honest work and fair pricing — 24 hours a day, 7 days a week.</p>
+      <div class="footer-phone">(617) 799-9304</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Services</div>
+      <ul>
+        <li>House Cleaning</li>
+        <li>Maid Services</li>
+        <li>Junk Removal</li>
+        <li>Demolition</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Info</div>
+      <ul>
+        <li>Open 24 / 7</li>
+        <li>Boston, MA</li>
+        <li>5.0 ★ Google</li>
+        <li>Free Quotes</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2025 M&amp;M Cleaning, Maid Services, Junk Removal &amp; Demolition. All rights reserved.</span>
+    <span>Boston, MA &nbsp;·&nbsp; (617) 799-9304</span>
+  </div>
+</footer>
+
+<!-- MOBILE BAR -->
+<div class="mobile-bar">
+  <a class="mb-call" href="tel:6177999304">📞 Call Now</a>
+  <a class="mb-text" href="sms:6177999304">💬 Text for Quote</a>
+</div>
+
+<script>
+// ── PARTICLES ──
+(function(){
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const COLORS = ['rgba(59,130,246,', 'rgba(139,92,246,', 'rgba(6,182,212,'];
+  for(let i=0;i<70;i++){
+    particles.push({
+      x: Math.random()*window.innerWidth,
+      y: Math.random()*window.innerHeight,
+      r: Math.random()*1.8+0.3,
+      dx: (Math.random()-.5)*0.4,
+      dy: (Math.random()-.5)*0.4,
+      c: COLORS[Math.floor(Math.random()*COLORS.length)],
+      o: Math.random()*0.5+0.1
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{
+      p.x += p.dx; p.y += p.dy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.c+p.o+')';
+      ctx.fill();
+    });
+    // draw connections
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx=particles[i].x-particles[j].x;
+        const dy=particles[i].y-particles[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<120){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle='rgba(59,130,246,'+(0.08*(1-dist/120))+')';
+          ctx.lineWidth=0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── NAV SCROLL ──
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll',()=>{
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ── SCROLL REVEAL ──
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+},{threshold:0.12});
+reveals.forEach(el=>observer.observe(el));
+
+// ── FAQ ──
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!isOpen) item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
